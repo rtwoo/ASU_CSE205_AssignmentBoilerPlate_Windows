@@ -2,7 +2,10 @@
 
 This is a boilerplate layout for CSE205 assignments to allow for MacOS users to use test cases in vscode for java development
 
-Special thanks to `Ryan Woo` for setting everything up, this is a simply template for students to use based off of `HIS` code with my commets to allow for better understanding for student who want to know what certain code is going lol
+Special thanks to `Ryan Woo` for setting everything up, this is a simply template for students to use based off of `HIS` code with my commets to allow for better understanding for student who want to know what certain code is doing lol
+
+## NOTE: You can delete the `.gitignore` file in the `bin`, `src`, and `test` folder. They are just there so that github would allow for the folders to be pushed because git doesn't allow for the directory. If you are wanting to know why git doesn't allow for that, a quick explanation is below.
+ - git doesn't actually ignore empty directories. It actually ignores all directories. In Git, directories exist only implicitly, through their contents. Empty directories have no contents, so therefore they don't exist.
 
 ## Directions to set up test cases in vsode for MacOS users
 
