@@ -1,63 +1,86 @@
-# assignment_boilerplate
+# Arizona State University - CSE 205 - VS Code Assignment Boilerplate
 
-This is a boilerplate layout for CSE205 assignments to allow for MacOS users to use test cases in vscode for java development
+A boilerplate layout for CSE 205 console application assignments that allows for Windows users to easily automate test cases.
 
-Special thanks to `Ryan Woo` for setting everything up, this is a simply template for students to use based off of `HIS` code with my commets to allow for better understanding for student who want to know what certain code is doing lol
+> NOTE: You *can* delete the `.gitignore` file in the `bin`, `src`, and `test` directories. They are only included so that git will allow for these directories to be pushed, as empty directories are otherwise ignored.
 
-### NOTE: You `CAN` delete the `.gitignore` file in the `bin`, `src`, and `test` folder. They are just there so that github would allow for the folders to be pushed because git doesn't allow for empty directory. If you are wanting to know why git doesn't allow for that, a quick explanation is below.
- - git doesn't actually ignore empty directories. It actually ignores all directories. In Git, directories exist only implicitly, through their contents. Empty directories have no contents, so therefore they don't exist.
+## Requirements
 
-## Directions to set up test cases in vsode for MacOS users
+- [Extension Pack for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
 
-### `.vscode` Folder
-
-- If you don't already have a .vscode file, create one.
-- You should have two files in the `.vsode`
-
-  1.) `settings.json`
-
-  ```
-  {
-    "version": "2.0.0",
-    "tasks": [
-      {
-        "label": "Run Tests",
-        "type": "shell",
-        "command": "./test.sh ${fileBasenameNoExtension}",
-        "problemMatcher": [],
-        "group": {
-          "kind": "build",
-         "isDefault": true
-        }
-      }
-    ]
-  }
-  ```
-
-### `bin` folder
-
-- Create a `bin` folder, this folder should hold all of your .class file. When you run the `Java: run test` it will make them automatically
+## Directions to set up automated test cases in VS Code manually
 
 ### `src` folder
 
-- Create a `src` folder and it should hold all you `.java` files
+- Create a `src` folder, all `.java` files will be placed here
+
+### `bin` folder
+
+- Create a `bin` folder, this folder will contain the compiled `.class` file(s).
+- If your extensions are working correctly, you should observe this file be populated with the class files for your program automatically after configuring `settings.json`.
 
 ### `test` folder
 
-- Create a `test` folder and it should hold all you input an output files
-- will output all your myoutput files into this folder for you to compare with.
+- Create a `test` folder and place all the given input an output text files in here
+- Your program's actual output will also be written to "myoutput" text files in this folder for comparison
 
-### `test.sh` file
+### `test.ps1` file
 
-- in the `test.sh` file, paste this code:
+- in the `test.ps1` file, paste this code:
 
-```json:
-  #!/bin/bash
-  for ((i=1; i<=4; i++)) do
-      echo "Testing case $i" # prints which test case number it's currently testing
+```ps1
+$name = $args[0]
+$numTests = $args[1]
 
-      # Compiles the java file and runs it with the input file and outputs the  result to myout$i.txt(depends on which test case it's currently testing)
-      java -cp bin/ $1 < test/input$i.txt > test/myout$i.txt
-      diff test/myout$i.txt test/output$i.txt
-  done
+for($i = 1; $i -le $numTests; $i++) {
+    if((Test-Path -Path test\input$i.txt -PathType Leaf) -and (Test-Path -Path test\output$i.txt -PathType Leaf)) {
+        Write-Output "Testing Case $i"
+        Get-Content test\input$i.txt | java -cp bin $name | Out-File -Encoding utf8 test\myoutput$i.txt
+        if(Compare-Object -CaseSensitive (Get-Content test\myoutput$i.txt) (Get-Content test\output$i.txt)) {
+            Write-Warning "Test Case $i Failed"
+            code --diff test\myoutput$i.txt test\output$i.txt
+        }
+    } else {
+        Write-Warning "Failed to locate files for Test Case $i, ensure both input$i.txt and output$i.txt are present in the test directory"
+    }
+}
+```
+
+### `.vscode` Folder
+
+- If you don't already have a .vscode directory, create one.
+- Create these two files if they don't exist already and set their contents to this:
+1. `settings.json`
+```json
+{
+  "java.project.sourcePaths": ["src"], // Source code
+  "java.project.outputPath": "bin" // Build output
+}
+```
+
+2. `tasks.json`
+```json
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Tests",
+      "type": "shell",
+      "command": ".\\test.ps1 ${fileBasenameNoExtension} ${input:numTests}",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "numTests",
+      "type": "promptString",
+      "default": "4",
+      "description": "Number of test cases"
+    }
+  ]
+}
 ```

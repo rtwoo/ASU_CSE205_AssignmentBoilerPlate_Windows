@@ -4,12 +4,20 @@
     {
       "label": "Run Tests",
       "type": "shell",
-      "command": "./test.sh ${fileBasenameNoExtension}",
+      "command": ".\\test.ps1 ${fileBasenameNoExtension} ${input:numTests}",
       "problemMatcher": [],
       "group": {
         "kind": "build",
         "isDefault": true
       }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "numTests",
+      "type": "promptString",
+      "default": "4",
+      "description": "Number of test cases"
     }
   ]
 }
