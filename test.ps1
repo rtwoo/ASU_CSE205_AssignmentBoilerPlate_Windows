@@ -1,6 +1,6 @@
 $name = $args[0]
 $minTest = $args[1]
-$maxTest = $args[1]
+$maxTest = $args[2]
 
 for($i = $minTest; $i -le $maxTest; $i++) {
     if((Test-Path -Path test\input$i.txt -PathType Leaf) -and (Test-Path -Path test\output$i.txt -PathType Leaf)) {
