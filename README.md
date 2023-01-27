@@ -1,4 +1,4 @@
-# Arizona State University - CSE 205 - VS Code Assignment Boilerplate
+# Arizona State University - CSE 205 - VS Code Assignment Boilerplate (Windows)
 
 A boilerplate layout for CSE 205 console application assignments that allows for Windows users to easily automate test cases.
 
