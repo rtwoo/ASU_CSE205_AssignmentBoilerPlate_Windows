@@ -1,7 +1,8 @@
 $name = $args[0]
-$numTests = $args[1]
+$minTest = $args[1]
+$maxTest = $args[1]
 
-for($i = 1; $i -le $numTests; $i++) {
+for($i = $minTest; $i -le $maxTest; $i++) {
     if((Test-Path -Path test\input$i.txt -PathType Leaf) -and (Test-Path -Path test\output$i.txt -PathType Leaf)) {
         
         Get-Content test\input$i.txt | java -cp bin $name | Out-File -Encoding utf8 test\myoutput$i.txt
