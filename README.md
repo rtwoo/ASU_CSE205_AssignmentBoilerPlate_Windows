@@ -4,6 +4,8 @@ A boilerplate layout for CSE 205 console application assignments that allows for
 
 > NOTE: You *can* delete the `.gitignore` file in the `bin`, `src`, and `test` directories. They are only included so that git will allow for these directories to be pushed, as empty directories are otherwise ignored.
 
+> NOTE: If you are running a UNIX-like system (macOS, WSL/Cygwin/MinGW, pretty much any Linux distro) you can use this version of the template [here](https://github.com/SloppyFlipFlop/assignment_boilerplate).
+
 ## Requirements
 
 - [Extension Pack for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
